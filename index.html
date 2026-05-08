@@ -1,1 +1,1765 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Ventas F2F — Tarjeta Invex Walmart</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap');
+
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: #23293a;
+    --accent: #ffc220;
+    --accent2: #00c2ff;
+    --accent3: #ff4060;
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --green: #00e5a0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* SIDEBAR NAV */
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 240px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 100;
+    padding: 0 0 32px;
+  }
+
+  .sidebar-logo {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+
+  .sidebar-logo .brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+
+  .sidebar-logo .sub {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 4px;
+  }
+
+  .nav-section {
+    padding: 8px 12px 4px;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    font-weight: 700;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 20px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--muted);
+    border-left: 3px solid transparent;
+    transition: all .18s;
+    text-decoration: none;
+  }
+
+  .nav-item:hover, .nav-item.active {
+    color: var(--text);
+    background: var(--surface2);
+    border-left-color: var(--accent);
+  }
+
+  .nav-item .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    color: var(--accent);
+    width: 20px;
+    text-align: center;
+  }
+
+  /* MAIN */
+  .main {
+    margin-left: 240px;
+    padding: 0 48px 80px 48px;
+    max-width: 1100px;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 56px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: 'CLOSE';
+    position: absolute;
+    right: -20px;
+    top: -10px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 180px;
+    color: var(--accent);
+    opacity: .04;
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #000;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    line-height: .95;
+    letter-spacing: 1px;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 span { color: var(--accent); }
+
+  .hero p {
+    max-width: 600px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 32px;
+    margin-top: 32px;
+  }
+
+  .stat {
+    text-align: left;
+  }
+
+  .stat .val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat .lbl {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* SECTIONS */
+  .section {
+    margin-bottom: 64px;
+    scroll-margin-top: 24px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--accent);
+    line-height: 1;
+    opacity: .6;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: #fff;
+    letter-spacing: .5px;
+    line-height: 1;
+  }
+
+  .section-sub {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 4px;
+  }
+
+  /* CARDS */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    transition: border-color .2s, transform .2s;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .card .tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+
+  .tag-amigable { background: rgba(0,194,255,.15); color: var(--accent2); }
+  .tag-ejecutiva { background: rgba(255,194,32,.15); color: var(--accent); }
+  .tag-agresiva { background: rgba(255,64,96,.15); color: var(--accent3); }
+  .tag-elegante { background: rgba(0,229,160,.15); color: var(--green); }
+  .tag-juvenil { background: rgba(170,100,255,.15); color: #bf8aff; }
+
+  .card p {
+    font-size: 15px;
+    color: var(--text);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .card .note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 10px;
+    font-style: normal;
+  }
+
+  /* SCRIPT BLOCKS */
+  .script-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .script-block .sb-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .script-block .sb-title {
+    font-weight: 700;
+    font-size: 14px;
+    flex: 1;
+  }
+
+  .script-block .sb-toggle {
+    color: var(--muted);
+    font-size: 18px;
+    transition: transform .2s;
+  }
+
+  .script-block .sb-toggle.open { transform: rotate(180deg); }
+
+  .script-block .sb-body {
+    padding: 20px;
+    display: none;
+  }
+
+  .script-block .sb-body.open { display: block; }
+
+  /* OBJECTION GRID */
+  .obj-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .obj-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--accent3);
+    margin-bottom: 16px;
+    letter-spacing: .5px;
+  }
+
+  .obj-response {
+    margin-bottom: 14px;
+  }
+
+  .obj-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .obj-text {
+    background: var(--surface2);
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    font-size: 14px;
+    color: var(--text);
+    font-style: italic;
+  }
+
+  .obj-text.agresiva { border-left-color: var(--accent3); }
+  .obj-text.elegante { border-left-color: var(--green); }
+  .obj-text.psico { border-left-color: var(--accent2); background: rgba(0,194,255,.05); font-style: normal; font-size: 12px; color: var(--muted); }
+
+  /* FRASES */
+  .frases-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+
+  .frase-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .frase-item::before {
+    content: '"';
+    position: absolute;
+    right: 8px; top: -8px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 60px;
+    color: var(--accent);
+    opacity: .1;
+    line-height: 1;
+  }
+
+  .frase-item p {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .frase-item .fn {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-weight: 400;
+  }
+
+  /* SIMULACIONES */
+  .sim-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .sim-header {
+    background: linear-gradient(90deg, var(--surface2), var(--surface));
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: .5px;
+    color: var(--accent);
+  }
+
+  .sim-body {
+    padding: 20px;
+  }
+
+  .dialog-line {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+
+  .dialog-line.vendedor .avatar {
+    background: var(--accent);
+    color: #000;
+  }
+
+  .dialog-line.cliente .avatar {
+    background: var(--surface2);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .dialog-text {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    max-width: 520px;
+    line-height: 1.6;
+  }
+
+  .dialog-line.vendedor .dialog-text {
+    background: rgba(255,194,32,.07);
+    border: 1px solid rgba(255,194,32,.2);
+  }
+
+  .dialog-line.cliente .dialog-text {
+    border: 1px solid var(--border);
+  }
+
+  /* TÉCNICAS */
+  .tecnica-item {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
+    align-items: start;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tecnica-item:last-child { border-bottom: none; }
+
+  .tecnica-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .tecnica-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .tecnica-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* MICROCIERRES */
+  .mc-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mc-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .mc-list li::before {
+    content: '▸';
+    color: var(--accent);
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  /* CIERRE TYPES */
+  .cierre-group {
+    margin-bottom: 28px;
+  }
+
+  .cierre-group-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255,194,32,.2);
+  }
+
+  .cierre-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-style: italic;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .cierre-item.suave { border-left-color: var(--green); }
+  .cierre-item.elegante { border-left-color: var(--accent2); }
+  .cierre-item.urgente { border-left-color: var(--accent3); }
+  .cierre-item.asumido { border-left-color: #bf8aff; }
+
+  /* PILLS */
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .pill {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid;
+  }
+
+  .pill-yellow { border-color: var(--accent); color: var(--accent); background: rgba(255,194,32,.1); }
+  .pill-blue { border-color: var(--accent2); color: var(--accent2); background: rgba(0,194,255,.1); }
+  .pill-green { border-color: var(--green); color: var(--green); background: rgba(0,229,160,.1); }
+  .pill-red { border-color: var(--accent3); color: var(--accent3); background: rgba(255,64,96,.1); }
+
+  /* DETECT */
+  .detect-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .detect-title {
+    font-weight: 700;
+    color: var(--accent2);
+    margin-bottom: 12px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .detect-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .detect-list li {
+    font-size: 14px;
+    color: var(--text);
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .detect-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent2);
+    font-size: 12px;
+  }
+
+  /* TOP BAR */
+  .topbar {
+    position: sticky;
+    top: 0;
+    background: rgba(10,12,16,.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 48px;
+    margin-left: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .topbar-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width .4s;
+  }
+
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 0 20px 60px; }
+    .hero h1 { font-size: 40px; }
+    .card-grid { grid-template-columns: 1fr; }
+    .frases-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">CLOSER GUIDE</div>
+    <div class="sub">Invex Walmart · F2F Script</div>
+  </div>
+  <div class="nav-section">Módulos</div>
+  <a class="nav-item active" href="#s1"><span class="num">1</span> Opening</a>
+  <a class="nav-item" href="#s2"><span class="num">2</span> Detección</a>
+  <a class="nav-item" href="#s3"><span class="num">3</span> Ofrecimiento</a>
+  <a class="nav-item" href="#s4"><span class="num">4</span> Microcierres</a>
+  <a class="nav-item" href="#s5"><span class="num">5</span> Cierre</a>
+  <a class="nav-item" href="#s6"><span class="num">6</span> Objeciones</a>
+  <a class="nav-item" href="#s7"><span class="num">7</span> Post-Objeción</a>
+  <a class="nav-item" href="#s8"><span class="num">8</span> Técnicas F2F</a>
+  <a class="nav-item" href="#s9"><span class="num">9</span> Frases TOP</a>
+  <a class="nav-item" href="#s10"><span class="num">10</span> Simulaciones</a>
+</nav>
+
+<!-- TOPBAR -->
+<div class="topbar" style="margin-left:240px;">
+  <span class="topbar-label">Progreso</span>
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <span class="topbar-label">🎯 7 min cierre</span>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="badge">⚡ Script Completo · Edición 2025</div>
+    <h1>SCRIPT <span>INVEX</span><br>WALMART</h1>
+    <p>Manual de ventas F2F de alto cierre. Scripts listos para piso de venta. Lenguaje real de top performer. Neuroventas aplicadas.</p>
+    <div class="stats-row">
+      <div class="stat"><div class="val">&lt;5"</div><div class="lbl">Para captar atención</div></div>
+      <div class="stat"><div class="val">&lt;7'</div><div class="lbl">Cierre express</div></div>
+      <div class="stat"><div class="val">1 doc</div><div class="lbl">Solo INE / QR</div></div>
+      <div class="stat"><div class="val">+15</div><div class="lbl">Objeciones cubiertas</div></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SECCIÓN 1 ═══════════════════════════════ -->
+  <section class="section" id="s1">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div>
+        <div class="section-title">OPENING / ABORDAJE</div>
+        <div class="section-sub">10 ejemplos · Captar atención en menos de 5 segundos</div>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="tag tag-amigable">😊 Amigable</span>
+        <p>"¿Ya escuchaste que en Walmart ahora te dan dinero por comprar aquí? Déjame contarte algo rápido."</p>
+        <p class="note">Activa curiosidad. Reencuadra la tarjeta como beneficio, no como producto financiero.</p>
+      </div>
+      <div class="card">
+        <span class="tag tag-amigable">😊 Amigable</span>
+        <p>"Oye, ¿tienes un minuto? Tengo algo que sí o sí te va a interesar si compras seguido aquí."</p>
+        <p class="note">La frase "sí o sí" genera intriga. El "si compras seguido aquí" valida el perfil.</p>
+      </div>
+      <div class="card">
+        <span class="tag tag-ejecutiva">💼 Ejecutiva</span>
+        <p>"Buenos días — soy promotor de Invex en Walmart. En menos de 3 minutos le cuento cómo recuperar parte de lo que gasta aquí cada semana."</p>
+        <p class="note">Proyecta profesionalismo. Pone un tiempo específico que reduce resistencia.</p>
+      </div>
+      <div class="card">
+        <span class="tag tag-ejecutiva">💼 Ejecutiva</span>
+        <p>"Permítame un segundo. Tenemos un producto bancario exclusivo para clientes de Walmart que ya muchos están aprovechando. ¿Le puedo mostrar?"</p>
+        <p class="note">Autoridad + prueba social. El "exclusivo" activa el efecto de escasez.</p>
+      </div>
+      <div class="card">
+        <span class="tag tag-agresiva">🔥 Agresiva</span>
+        <p>"¿Tú pagas todo de contado aquí? Entonces estás dejando dinero en la mesa. Te explico en 60 segundos."</p>
+        <p class="note">Provoca y genera urgencia. La pérdida duele más que la ganancia — neuroventas puras.</p>
+      </div>
+      <div class="card">
+        <span class="tag tag-agresiva">🔥 Agresiva</span>
+        <p>"Oye — ¿ya tienes la tarjeta de Walmart? No, ¿verdad? Estás perdiendo cashback cada vez que pagas. Son literalmente billetes que se van."</p>
+        <p class="note">Aversion a la pérdida activada. El tono directo filtra clientes dispuestos.</p>
+      </div>
+      <div class="card">
+        <span class="tag tag-elegante">✨ Elegante</span>
+        <p>"Disculpe que le interrumpa — solo un momento. Hay un programa de recompensas dentro de Walmart que muy pocos conocen. ¿Le interesa saber cuánto podría ganar?"</p>
+        <p class="note">Cortesía + exclusividad. Ideal para perfiles con más edad o nivel socioeconómico medio-alto.</p>
+      </div>
+      <div class="card">
+        <span class="tag tag-elegante">✨ Elegante</span>
+        <p>"Buenas tardes. Le comparto algo breve: tenemos una tarjeta que devuelve dinero en efectivo cada vez que compra aquí. Sin letras chiquitas."</p>
+        <p class="note">"Sin letras chiquitas" desarma la desconfianza financiera de entrada.</p>
+      </div>
+      <div class="card">
+        <span class="tag tag-juvenil">⚡ Juvenil</span>
+        <p>"¡Ey! ¿Ya viste lo de la tarjeta de Walmart? Te regresa lana cada que compras aquí. Literal es sacar dinero de donde ya gastas."</p>
+        <p class="note">Lenguaje coloquial. "Regresa lana" conecta emocionalmente con perfil joven.</p>
+      </div>
+      <div class="card">
+        <span class="tag tag-juvenil">⚡ Juvenil</span>
+        <p>"Oye, ¿cuánto gastas aquí al mes? Sea lo que sea, con esta tarjeta te regresan un porcentaje. ¿Le entras?"</p>
+        <p class="note">La pregunta directa de gasto involucra al cliente. El "¿le entras?" crea micro-compromiso inmediato.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ SECCIÓN 2 ═══════════════════════════════ -->
+  <section class="section" id="s2">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div>
+        <div class="section-title">DETECCIÓN RÁPIDA</div>
+        <div class="section-sub">Perfilar al cliente en menos de 30 segundos</div>
+      </div>
+    </div>
+
+    <div class="detect-block">
+      <div class="detect-title">⚡ Preguntas clave de perfil (elige 2-3)</div>
+      <ul class="detect-list">
+        <li>"¿Compras seguido aquí en Walmart o en Sam's?" → Valida frecuencia de uso.</li>
+        <li>"¿Pagas normalmente en efectivo o con tarjeta?" → Identifica apertura financiera.</li>
+        <li>"¿Ya tienes alguna tarjeta de crédito ahorita?" → Mide competencia y satura.</li>
+        <li>"¿Tienes INE contigo?" → Detección de viabilidad express.</li>
+        <li>"¿Eres empleado o tienes negocio propio?" → Perfil de ingresos sin preguntar directamente.</li>
+      </ul>
+    </div>
+
+    <div class="detect-block">
+      <div class="detect-title">👁️ Cómo leer al cliente en 30 segundos (señales visuales)</div>
+      <ul class="detect-list">
+        <li>Carrito lleno o compras grandes → Alta probabilidad. Arranca de inmediato.</li>
+        <li>Compra con tarjeta en otro módulo → Ya usa crédito. Oferta de mejora.</li>
+        <li>Ropa de trabajo formal → Perfil estable. Usa tono ejecutivo.</li>
+        <li>Teléfono en mano (redes sociales) → Perfil joven. Usa energía y lenguaje casual.</li>
+        <li>Va con familia o niños → Ángulo de "para tu familia, para ti".</li>
+        <li>Está parado revisando precios → Está evaluando. Es el momento perfecto.</li>
+        <li>Va de prisa (paso rápido) → Usa el opening agresivo o de tiempo: "Solo 60 segundos".</li>
+      </ul>
+    </div>
+
+    <div class="detect-block">
+      <div class="detect-title">🔗 Conexión emocional rápida (rapport en 10 segundos)</div>
+      <ul class="detect-list">
+        <li>Espeja la energía del cliente: si va tranquilo, baja el tono; si va rápido, acelera el pitch.</li>
+        <li>Sonríe primero, habla después — el cerebro decide en milisegundos si confía en ti.</li>
+        <li>Usa su contexto visual: "Veo que andas con bastante [producto] — pues precisamente para eso aplica perfectísimo."</li>
+        <li>Nombra a las personas si van con alguien: "Para usted y para su familia esto aplica perfecto."</li>
+        <li>Nunca pares al cliente de frente — camina a su lado. Rompe la dinámica de vendedor-comprador.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ SECCIÓN 3 ═══════════════════════════════ -->
+  <section class="section" id="s3">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div>
+        <div class="section-title">OFRECIMIENTO IRRESISTIBLE</div>
+        <div class="section-sub">Haz que el cliente sienta que pierde dinero si no la toma</div>
+      </div>
+    </div>
+
+    <div class="pill-row">
+      <span class="pill pill-yellow">Cashback real</span>
+      <span class="pill pill-blue">Aprobación express</span>
+      <span class="pill pill-green">Sin anualidad inicial</span>
+      <span class="pill pill-red">Solo INE</span>
+      <span class="pill pill-yellow">7 minutos trámite</span>
+      <span class="pill pill-blue">Compras en Walmart</span>
+    </div>
+
+    <div class="script-block">
+      <div class="sb-header" onclick="toggleScript(this)">
+        <span class="tag tag-amigable">Pitch base · Versión completa</span>
+        <span class="sb-title">Script irresistible de presentación</span>
+        <span class="sb-toggle">▾</span>
+      </div>
+      <div class="sb-body open">
+        <p style="color:#6b7280;font-size:13px;margin-bottom:12px;">Úsalo como guía — adáptalo a tu estilo:</p>
+        <p style="font-style:italic;font-size:15px;line-height:1.8;color:var(--text);">
+        "Mira, básicamente lo que tenemos es la tarjeta oficial de Walmart en alianza con Invex — que es un banco 100% regulado. Lo bueno de esto es que <strong style="color:var(--accent)">cada vez que compras aquí, te regresan dinero</strong>. Dinero de verdad, no puntos que nunca usas.
+        <br><br>
+        El trámite es express — <strong style="color:var(--accent)">solo necesitas tu INE y en menos de 7 minutos</strong> ya tienes respuesta. No hay que llevar comprobantes, no hay burocracia, nada complicado.
+        <br><br>
+        La gente que ya la tiene me dice que desde el primer mes ya recuperaron su inversión con lo que compran aquí normalmente. <strong style="color:var(--accent)">Tú ya gastas aquí de todas formas</strong> — la pregunta es: ¿te quedas con ese dinero o lo dejas ir?
+        <br><br>
+        ¿Traes tu INE? Te hago el trámite ahorita mismo."
+        </p>
+      </div>
+    </div>
+
+    <div class="script-block">
+      <div class="sb-header" onclick="toggleScript(this)">
+        <span class="tag tag-agresiva">Versión · Urgencia</span>
+        <span class="sb-title">Script con escasez psicológica</span>
+        <span class="sb-toggle">▾</span>
+      </div>
+      <div class="sb-body">
+        <p style="font-style:italic;font-size:15px;line-height:1.8;color:var(--text);">
+        "Ahorita hay una promoción activa — clientes que tramitan hoy tienen condiciones especiales de entrada. No sé hasta cuándo esté vigente porque estos programas cambian.
+        <br><br>
+        El trámite es en este momento: <strong style="color:var(--accent3)">INE y 7 minutos</strong>. Eso es todo lo que necesitas.
+        <br><br>
+        La gente que lo ha dejado para 'después' muchas veces regresa y ya no agarran las mismas condiciones. <strong style="color:var(--accent3)">¿Lo hacemos ahorita o lo dejamos ir?</strong>"
+        </p>
+      </div>
+    </div>
+
+    <div class="script-block">
+      <div class="sb-header" onclick="toggleScript(this)">
+        <span class="tag tag-elegante">Versión · Racional</span>
+        <span class="sb-title">Script para cliente analítico / desconfiado</span>
+        <span class="sb-toggle">▾</span>
+      </div>
+      <div class="sb-body">
+        <p style="font-style:italic;font-size:15px;line-height:1.8;color:var(--text);">
+        "Le explico los números para que lo vea claro: si usted gasta un promedio de 3,000 pesos al mes aquí en Walmart, la tarjeta le puede regresar entre 90 y 150 pesos mensuales en cashback, dependiendo de su uso.
+        <br><br>
+        Al año eso es entre 1,080 y 1,800 pesos que básicamente son compras gratis.
+        <br><br>
+        El banco es Invex — regulado por la CNBV, tiene 30 años en México. No es una empresa nueva.
+        <br><br>
+        El trámite requiere únicamente su INE — si no la trae física, tenemos opción de validación por QR desde su celular. <strong style="color:var(--green)">¿Le hacemos la solicitud?</strong>"
+        </p>
+      </div>
+    </div>
+
+    <div class="script-block">
+      <div class="sb-header" onclick="toggleScript(this)">
+        <span class="tag tag-juvenil">Versión · Joven / Casual</span>
+        <span class="sb-title">Script para perfil joven</span>
+        <span class="sb-toggle">▾</span>
+      </div>
+      <div class="sb-body">
+        <p style="font-style:italic;font-size:15px;line-height:1.8;color:var(--text);">
+        "A ver, te lo explico rápido y sin rollo: es la tarjeta de Walmart — cada que compras aquí o en Sam's te regresan lana. No es compleja, no tiene trampa.
+        <br><br>
+        El trámite es literalmente: <strong style="color:var(--accent)">me das tu INE, en 7 minutos tienes respuesta</strong>. Si no traes INE física, lo hacemos con el QR de tu wallet digital.
+        <br><br>
+        Ya si te aprueban y no la quieres usar, ni pedo — pero al menos sabes que la tienes. ¿Le damos o qué?"
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ SECCIÓN 4 ═══════════════════════════════ -->
+  <section class="section" id="s4">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div>
+        <div class="section-title">MICROCIERRES</div>
+        <div class="section-sub">Avanzar el cierre paso a paso · Control de conversación</div>
+      </div>
+    </div>
+
+    <ul class="mc-list">
+      <li>"¿Compras seguido aquí en Walmart?" → Si dice sí: <strong>"Entonces esto aplica perfecto para ti."</strong></li>
+      <li>"¿Tienes INE contigo ahorita?" → Si dice sí: <strong>"Perfecto, con eso es todo lo que necesitamos."</strong></li>
+      <li>"¿Tienes ya alguna tarjeta de crédito?" → Si dice sí: <strong>"Qué bueno — esta la puedes complementar o hasta reemplazar si te conviene más."</strong></li>
+      <li>"¿Usarías una tarjeta que te regresa dinero en Walmart?" → Cualquier respuesta positiva es un sí al producto.</li>
+      <li>"¿Tienes como 7 minutitos?" → Comprometer tiempo = comprometer atención.</li>
+      <li>"Si la tarjeta no te cuesta nada tramitarla, ¿no tienes nada que perder, verdad?" → Elimina riesgo percibido.</li>
+      <li>"¿Te explico rápido cómo funciona el cashback?" → Preguntar permiso genera más apertura que imponer.</li>
+      <li>"¿La usarías principalmente aquí en Walmart o también en otras tiendas?" → Pregunta de uso = asume que ya la va a tener.</li>
+      <li>"¿Quieres que verifique si ya estás pre-aprobado?" → El "pre-aprobado" activa el ego del cliente.</li>
+      <li>"¿Le damos y ya que veas el límite que te asignan?" → Cierre asumido suave.</li>
+    </ul>
+  </section>
+
+  <!-- ═══════════════════════════════ SECCIÓN 5 ═══════════════════════════════ -->
+  <section class="section" id="s5">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <div>
+        <div class="section-title">CIERRE DE VENTA</div>
+        <div class="section-sub">Cierres directos · suaves · elegantes · urgentes · asumidos</div>
+      </div>
+    </div>
+
+    <div class="cierre-group">
+      <div class="cierre-group-title">⚡ Cierres Directos</div>
+      <div class="cierre-item">"¿Me das tu INE y arrancamos ahorita mismo?"</div>
+      <div class="cierre-item">"Solo necesito tu INE para hacer la solicitud — ¿la tienes?"</div>
+      <div class="cierre-item">"¿La tramitamos ahorita o prefieres perder el cashback otro mes más?"</div>
+    </div>
+
+    <div class="cierre-group">
+      <div class="cierre-group-title">🌿 Cierres Suaves</div>
+      <div class="cierre-item suave">"El trámite tarda menos de 7 minutos. ¿Le echamos un ojo juntos?"</div>
+      <div class="cierre-item suave">"No tienes nada que comprometer con la solicitud — solo verificamos si hay aprobación y tú decides."</div>
+      <div class="cierre-item suave">"¿Quieres que lo revisemos ahorita mientras terminas tu compra?"</div>
+    </div>
+
+    <div class="cierre-group">
+      <div class="cierre-group-title">✨ Cierres Elegantes</div>
+      <div class="cierre-item elegante">"El proceso es completamente digital y rápido. ¿Le damos continuidad aquí?"</div>
+      <div class="cierre-item elegante">"Si tiene su INE a la mano, puedo iniciar la solicitud de inmediato — sin compromisos adicionales."</div>
+      <div class="cierre-item elegante">"Muchos de nuestros clientes salen hoy mismo con la aprobación. ¿Lo intentamos?"</div>
+    </div>
+
+    <div class="cierre-group">
+      <div class="cierre-group-title">🔥 Cierres Urgentes</div>
+      <div class="cierre-item urgente">"Ahorita hay condiciones de bienvenida — si lo deja para después, esas condiciones pueden cambiar."</div>
+      <div class="cierre-item urgente">"Cada semana que pasa sin la tarjeta es cashback que ya no puedes recuperar. ¿Lo hacemos hoy?"</div>
+      <div class="cierre-item urgente">"Hoy tenemos cupo limitado de solicitudes express. ¿Lo aprovechamos?"</div>
+    </div>
+
+    <div class="cierre-group">
+      <div class="cierre-group-title">🎯 Cierres Asumidos</div>
+      <div class="cierre-item asumido">"Perfecto — solo dame tu INE y en 7 minutos tienes respuesta."</div>
+      <div class="cierre-item asumido">"Bien, ¿tienes INE física o la validamos por QR?"</div>
+      <div class="cierre-item asumido">"Listo, arrancamos — ¿tu nombre completo como aparece en tu INE?"</div>
+      <div class="cierre-item asumido">"También podemos hacerlo con QR si no traes INE — ¿tienes el celular a la mano?"</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ SECCIÓN 6 ═══════════════════════════════ -->
+  <section class="section" id="s6">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <div>
+        <div class="section-title">MANEJO DE OBJECIONES</div>
+        <div class="section-sub">15 objeciones · 3 respuestas + técnica psicológica por cada una</div>
+      </div>
+    </div>
+
+    <!-- OBJ 1 -->
+    <div class="obj-card">
+      <div class="obj-title">"No me interesa"</div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Corta</div>
+        <div class="obj-text">"Entiendo — ¿puedo preguntarte por qué? A veces es algo que se resuelve en 30 segundos."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Elegante</div>
+        <div class="obj-text elegante">"Con todo respeto, la mayoría de las personas que dicen eso es porque no saben exactamente qué incluye. Déjeme contarle el punto clave, que son 30 segundos, y si no le aplica, no le quito más tiempo."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Agresiva / Comercial</div>
+        <div class="obj-text agresiva">"¿No te interesa el cashback? Porque básicamente es dinero que ya estás gastando aquí y no te estás regresando. ¿Cuánto gastas al mes aquí?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">🧠 Técnica Psicológica</div>
+        <div class="obj-text psico">Reversión de objeción + pregunta de diagnóstico. Nunca aceptes el "no" como final. Convierte la resistencia en una razón para seguir el diálogo.</div>
+      </div>
+    </div>
+
+    <!-- OBJ 2 -->
+    <div class="obj-card">
+      <div class="obj-title">"Ya tengo muchas tarjetas"</div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Corta</div>
+        <div class="obj-text">"¡Mejor! Entonces ya sabes cómo funciona el sistema. La pregunta es: ¿alguna de las que tienes te da cashback aquí en Walmart?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Elegante</div>
+        <div class="obj-text elegante">"Qué bueno que ya maneja crédito — eso le facilita la aprobación. Esta no es para reemplazarlas todas, es específicamente para optimizar lo que ya gasta aquí en Walmart."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Agresiva / Comercial</div>
+        <div class="obj-text agresiva">"¿Sí? ¿Y cuál de las que tienes te regresa dinero en Walmart específicamente? Porque si ninguna lo hace, estás dejando cashback en el aire cada semana."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">🧠 Técnica Psicológica</div>
+        <div class="obj-text psico">Diferenciación + comparación. No pelees contra las tarjetas que ya tiene. Encuentra el hueco que ninguna cubre y posiciona tu producto ahí.</div>
+      </div>
+    </div>
+
+    <!-- OBJ 3 -->
+    <div class="obj-card">
+      <div class="obj-title">"No tengo tiempo"</div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Corta</div>
+        <div class="obj-text">"Son 7 minutos — menos de lo que tardas en la fila de caja. Lo hacemos mientras esperas."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Elegante</div>
+        <div class="obj-text elegante">"Lo entiendo perfectamente. Por eso el trámite está diseñado para hacerse en menos de 7 minutos aquí mismo — sin salir de Walmart, sin citas, sin papelería."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Agresiva / Comercial</div>
+        <div class="obj-text agresiva">"7 minutos. Menos que el tiempo que tardaste en elegir lo que traes en el carrito. ¿Le entramos?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">🧠 Técnica Psicológica</div>
+        <div class="obj-text psico">Ancla de tiempo. Siempre compara los 7 minutos con algo que el cliente ya hizo o va a hacer (caja, estacionamiento). Hace que el tiempo parezca insignificante.</div>
+      </div>
+    </div>
+
+    <!-- OBJ 4 -->
+    <div class="obj-card">
+      <div class="obj-title">"No traigo INE"</div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Corta</div>
+        <div class="obj-text">"Sin problema — también tenemos validación por QR desde tu celular. ¿Tienes el teléfono?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Elegante</div>
+        <div class="obj-text elegante">"No se preocupe — contamos con un sistema de verificación digital por código QR. Solo necesitamos su celular y procesamos la validación de identidad en el momento."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Agresiva / Comercial</div>
+        <div class="obj-text agresiva">"¡Perfecto! Con el QR también lo hacemos — ¿tienes el celular? Eso es todo lo que necesitamos."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">🧠 Técnica Psicológica</div>
+        <div class="obj-text psico">Eliminación de fricción. El QR es el "plan B" que no da excusas. Siempre que exista la solución alternativa, preséntala como una ventaja, no como un parche.</div>
+      </div>
+    </div>
+
+    <!-- OBJ 5 -->
+    <div class="obj-card">
+      <div class="obj-title">"Luego regreso" / "Después la saco"</div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Corta</div>
+        <div class="obj-text">"El 'después' siempre cuesta más caro. Ahorita estás aquí, yo estoy aquí, y son 7 minutos. ¿Por qué no lo hacemos ya?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Elegante</div>
+        <div class="obj-text elegante">"Entiendo — solo le comento que las condiciones de bienvenida que tenemos hoy pueden variar. No le prometo que en otra visita sean las mismas."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Agresiva / Comercial</div>
+        <div class="obj-text agresiva">"¿Sabes cuántos clientes me dicen eso y nunca regresan? No por flojera — sino porque la vida no para. Ahorita es el momento. ¿Le entramos?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">🧠 Técnica Psicológica</div>
+        <div class="obj-text psico">Urgencia real + costo de oportunidad. Activa el miedo a perder la oportunidad. El "después" no existe en ventas — existe el "ahorita" o el "nunca".</div>
+      </div>
+    </div>
+
+    <!-- OBJ 6 -->
+    <div class="obj-card">
+      <div class="obj-title">"Solo vine rápido"</div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Corta</div>
+        <div class="obj-text">"Mejor — son 7 minutos y te vas con algo extra. Lo hacemos mientras pagas."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Elegante</div>
+        <div class="obj-text elegante">"No le robo el tiempo — mientras termina sus compras yo preparo el formulario. Al llegar a caja ya tenemos respuesta."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Agresiva / Comercial</div>
+        <div class="obj-text agresiva">"¡Perfecto! Los mejores negocios se hacen rápido. Mientras caminas lo explico — dame un minuto."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">🧠 Técnica Psicológica</div>
+        <div class="obj-text psico">Aprovecha el tiempo muerto. El cliente ya está pagando, ya está en fila, ya está ahí. Enmarca el trámite como algo paralelo, no adicional.</div>
+      </div>
+    </div>
+
+    <!-- OBJ 7 -->
+    <div class="obj-card">
+      <div class="obj-title">"No me gustan las tarjetas"</div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Corta</div>
+        <div class="obj-text">"¿Por qué? ¿Malas experiencias antes? — Cuéntame."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Elegante</div>
+        <div class="obj-text elegante">"Totalmente válido. Muchos de nuestros mejores clientes pensaban igual antes de verla. La diferencia es que esta no la usas como crédito si no quieres — puedes liquidarla al mes y solo aprovechar el cashback."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Agresiva / Comercial</div>
+        <div class="obj-text agresiva">"¿No te gustan las tarjetas o no te gustan las deudas? Porque esto no tiene que ser deuda — es básicamente ahorrar en cada compra. Eso sí te gusta, ¿verdad?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">🧠 Técnica Psicológica</div>
+        <div class="obj-text psico">Separación de creencia del producto. El cliente no odia la tarjeta — odia el concepto de deuda. Reencuadra el producto como herramienta de ahorro.</div>
+      </div>
+    </div>
+
+    <!-- OBJ 8 -->
+    <div class="obj-card">
+      <div class="obj-title">"Me endeudo"</div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Corta</div>
+        <div class="obj-text">"Entiendo — por eso existe el pago mínimo y el pago total. Si la liquidas cada mes, no pagas intereses. Es gratis."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Elegante</div>
+        <div class="obj-text elegante">"El crédito mal usado genera deuda — eso es cierto. Pero el crédito bien manejado genera ahorro. Si usted gasta lo mismo que ya gasta y lo paga puntual, la tarjeta le devuelve dinero sin costo."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Agresiva / Comercial</div>
+        <div class="obj-text agresiva">"¿Te endeudas por la tarjeta o por lo que compras? La tarjeta no te obliga a gastar más — te hace ganar en lo que ya gastas. ¿Cuánto gastas aquí al mes?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">🧠 Técnica Psicológica</div>
+        <div class="obj-text psico">Responsabilización + reencuadre. El cliente se identifica como "que se endeuda" — rompe esa creencia limitante separando la herramienta del hábito.</div>
+      </div>
+    </div>
+
+    <!-- OBJ 9 -->
+    <div class="obj-card">
+      <div class="obj-title">"Estoy en buró"</div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Corta</div>
+        <div class="obj-text">"No es bloqueante — la aprobación depende del historial completo. Muchos clientes en buró han sido aprobados. ¿Hacemos la solicitud y vemos?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Elegante</div>
+        <div class="obj-text elegante">"El buró no siempre significa rechazo — todo depende del tipo de registro. Esta tarjeta tiene criterios de aprobación propios. Le sugiero que hagamos la solicitud y el sistema da respuesta inmediata. No hay nada que perder con intentarlo."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Agresiva / Comercial</div>
+        <div class="obj-text agresiva">"¡Métete al sistema y vemos! Muchos que creían que no iban a pasar, sí pasaron. La única forma de saber es intentándolo — ¿le damos?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">🧠 Técnica Psicológica</div>
+        <div class="obj-text psico">Minimización de riesgo + activación de esperanza. El cliente ya se resignó — tu trabajo es reactivar la posibilidad. "El sistema decide, no yo".</div>
+      </div>
+    </div>
+
+    <!-- OBJ 10 -->
+    <div class="obj-card">
+      <div class="obj-title">"Mi esposa/esposo decide"</div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Corta</div>
+        <div class="obj-text">"Claro — ¿está aquí? Lo revisamos juntos y listo."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Elegante</div>
+        <div class="obj-text elegante">"Perfecto — la decisión financiera en familia siempre es buena. ¿Qué le diría usted a su pareja para explicarle el beneficio? Porque si a usted le convence, seguro a ella/él también."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Agresiva / Comercial</div>
+        <div class="obj-text agresiva">"¿Y si la solicitud es gratuita y sin compromisos? No tendrías que pedirle permiso — solo decides si quieres el cashback o no. ¿Quieres eso decidirlo tú o tu pareja?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">🧠 Técnica Psicológica</div>
+        <div class="obj-text psico">Transferencia de autoridad + activación del ego. Nadie quiere sentirse sin poder de decisión. Devuelve el control sin atacar a la pareja.</div>
+      </div>
+    </div>
+
+    <!-- OBJ 11 -->
+    <div class="obj-card">
+      <div class="obj-title">"Solo estoy viendo"</div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Corta</div>
+        <div class="obj-text">"Perfecto — yo también solo te muestro. Sin presión. ¿Te explico mientras caminas?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Elegante</div>
+        <div class="obj-text elegante">"Sin problema — lo mismo aplica para la tarjeta: solo vea en qué consiste y si le convence, damos el siguiente paso. Sin compromiso."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Agresiva / Comercial</div>
+        <div class="obj-text agresiva">"¡Mejor! Mientras ves, yo te cuento lo importante — si no te convence, no pierdes nada. Dame 60 segundos."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">🧠 Técnica Psicológica</div>
+        <div class="obj-text psico">Técnica del espejo. Usa su misma frase para seguir avanzando. "Solo estoy viendo" = "también yo solo estoy mostrando". Baja la guardia.</div>
+      </div>
+    </div>
+
+    <!-- OBJ 12 -->
+    <div class="obj-card">
+      <div class="obj-title">"No confío"</div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Corta</div>
+        <div class="obj-text">"¿Qué necesitarías ver para confiar? Dime — aquí estoy."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Elegante</div>
+        <div class="obj-text elegante">"La desconfianza es válida — hay mucho fraude afuera. Por eso le puedo mostrar mi credencial de promotor, el contrato físico con los términos, y el sitio oficial de Invex. Trabajamos dentro de Walmart — todo está respaldado."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Agresiva / Comercial</div>
+        <div class="obj-text agresiva">"¿No confías en Walmart o no confías en mí? Porque llevamos años aquí adentro — Walmart no dejaría que operáramos si no fuera legítimo. ¿Qué te generaría confianza?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">🧠 Técnica Psicológica</div>
+        <div class="obj-text psico">Transferencia de autoridad a la marca ancla. Walmart como validador. Pregunta abierta de confianza: obliga al cliente a definir qué necesita, y tú lo das.</div>
+      </div>
+    </div>
+
+    <!-- OBJ 13 -->
+    <div class="obj-card">
+      <div class="obj-title">"¿Cuánto me van a cobrar?"</div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Corta</div>
+        <div class="obj-text">"Cero si la pagas puntual. Solo pagas intereses si no liquidas el saldo mensual — como cualquier tarjeta."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Elegante</div>
+        <div class="obj-text elegante">"Excelente pregunta — la tarjeta no tiene costo si la liquidas mensualmente. El único costo real son intereses en caso de financiamiento, que es tu decisión. Si la usas bien, te cuesta cero y te da cashback."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Agresiva / Comercial</div>
+        <div class="obj-text agresiva">"¿Cuánto te cobran? Nada si la usas bien. La pregunta real es: ¿cuánto te va a regresar? Eso sí es lo interesante."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">🧠 Técnica Psicológica</div>
+        <div class="obj-text psico">Inversión del foco. Convierte la pregunta de costo en conversación de ganancia. Siempre responde el costo y redirige a los beneficios.</div>
+      </div>
+    </div>
+
+    <!-- OBJ 14 -->
+    <div class="obj-card">
+      <div class="obj-title">"No quiero anualidad"</div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Corta</div>
+        <div class="obj-text">"Entendido — consulta con el ejecutivo los términos actuales de anualidad. Muchos clientes la recuperan con el cashback del primer trimestre."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Elegante</div>
+        <div class="obj-text elegante">"La anualidad, si aplica, se recupera rápido con el cashback. Haz el cálculo: si compras 3,000 al mes aquí, en pocos meses ya la amortizaste."</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Agresiva / Comercial</div>
+        <div class="obj-text agresiva">"¿Cuánto ganas de cashback al año? Eso compara con la anualidad — y normalmente te sale ganando. ¿Hacemos los números?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">🧠 Técnica Psicológica</div>
+        <div class="obj-text psico">Compensación matemática. Muestra que el cashback > anualidad. El cerebro acepta un costo cuando ve un beneficio mayor con números concretos.</div>
+      </div>
+    </div>
+
+    <!-- OBJ 15 -->
+    <div class="obj-card">
+      <div class="obj-title">"Estoy en buró / Tengo mal historial"</div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Corta</div>
+        <div class="obj-text">"El sistema evalúa tu historial completo — no solo lo negativo. La única forma de saber es intentarlo. ¿Aplicamos?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Elegante</div>
+        <div class="obj-text elegante">"Hay diferentes tipos de registros en buró — no todos bloquean. El sistema da respuesta inmediata. Si no aprueba, no pasa nada. Si aprueba, ganaste. ¿Lo intentamos?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">Respuesta Agresiva / Comercial</div>
+        <div class="obj-text agresiva">"¿Sabes cuántos clientes en buró han sido aprobados aquí? Un chingo. La única forma de perder es no intentarlo. ¿Le damos?"</div>
+      </div>
+      <div class="obj-response">
+        <div class="obj-label">🧠 Técnica Psicológica</div>
+        <div class="obj-text psico">Riesgo cero percibido. Si el rechazo no cuesta nada, el cliente no tiene razón lógica para no intentarlo. Elimina el miedo al fracaso.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ SECCIÓN 7 ═══════════════════════════════ -->
+  <section class="section" id="s7">
+    <div class="section-header">
+      <div class="section-num">07</div>
+      <div>
+        <div class="section-title">CIERRES POST-OBJECIÓN</div>
+        <div class="section-sub">Recuperar el control sin verse insistente</div>
+      </div>
+    </div>
+
+    <ul class="mc-list">
+      <li><strong>Pausa estratégica:</strong> Después de manejar la objeción, guarda silencio 2-3 segundos. El primero en hablar cede el control.</li>
+      <li><strong>Validación + redireccionamiento:</strong> "Entiendo perfectamente… y por eso precisamente esta tarjeta tiene X característica."</li>
+      <li><strong>Pregunta de cierre suave:</strong> "¿Eso responde tu duda?" → Si dice sí: "Perfecto — ¿le damos entonces?"</li>
+      <li><strong>El doble beneficio:</strong> "Mira, por un lado tienes [beneficio 1], y por otro lado [beneficio 2]. Con cualquiera de los dos ya vale la pena. ¿No crees?"</li>
+      <li><strong>El escalamiento empático:</strong> "Sé que no es fácil tomar decisiones financieras en el momento. Por eso te digo: el trámite no te compromete a usarla. Solo verificamos aprobación."</li>
+      <li><strong>Cierre de alternativa:</strong> "¿La tramitamos con INE o con el QR del celular?" → No preguntes si la quiere — pregunta cómo la quiere tramitar.</li>
+      <li><strong>Resumen de beneficios:</strong> "En resumen: cashback, sin complicaciones, trámite en 7 minutos, solo INE. ¿Hay alguna razón más para no intentarlo?"</li>
+      <li><strong>El cierre final de respeto:</strong> "Te entiendo — no te voy a presionar. Pero si en algún momento cambias de idea, aquí estaré. ¿Te dejo el material?" → Dejar contacto = puerta abierta.</li>
+    </ul>
+  </section>
+
+  <!-- ═══════════════════════════════ SECCIÓN 8 ═══════════════════════════════ -->
+  <section class="section" id="s8">
+    <div class="section-header">
+      <div class="section-num">08</div>
+      <div>
+        <div class="section-title">TÉCNICAS AVANZADAS F2F</div>
+        <div class="section-sub">Lenguaje corporal · energía · timing · lectura de clientes</div>
+      </div>
+    </div>
+
+    <div class="tecnica-item">
+      <div class="tecnica-icon">🚶</div>
+      <div>
+        <div class="tecnica-name">Cómo detener clientes que caminan</div>
+        <div class="tecnica-desc">Nunca te pongas de frente — bloquear genera rechazo inmediato. Colócate a 45° y a su lado. Empieza a caminar junto a él mientras hablas. La conversación lateral reduce la tensión de vendedor-comprador.</div>
+      </div>
+    </div>
+
+    <div class="tecnica-item">
+      <div class="tecnica-icon">💪</div>
+      <div>
+        <div class="tecnica-name">Postura y lenguaje corporal</div>
+        <div class="tecnica-desc">Espalda recta, hombros abiertos — proyecta autoridad. Mantén contacto visual el 70% del tiempo. Inclínate ligeramente hacia adelante cuando hablas de beneficios — señal de interés genuino. No cruces los brazos, nunca.</div>
+      </div>
+    </div>
+
+    <div class="tecnica-item">
+      <div class="tecnica-icon">🎙️</div>
+      <div>
+        <div class="tecnica-name">Tono de voz</div>
+        <div class="tecnica-desc">Opening: energía media-alta para captar. Presentación: baja el tono — genera confidencialidad. Cierre: voz firme y directa. Usa pausas estratégicas antes de la pregunta de cierre. El tono vale más que las palabras — el cerebro emocional escucha el tono, no el contenido.</div>
+      </div>
+    </div>
+
+    <div class="tecnica-item">
+      <div class="tecnica-icon">⏱️</div>
+      <div>
+        <div class="tecnica-name">Timing y ritmo</div>
+        <div class="tecnica-desc">No hagas el pitch completo de golpe. Divide en 3 bloques de 90 segundos. Después de cada bloque, lanza una micro-pregunta de validación. Si el cliente responde, sigue. Si no, ajusta. Nunca hables más de 2 minutos seguidos sin preguntar algo.</div>
+      </div>
+    </div>
+
+    <div class="tecnica-item">
+      <div class="tecnica-icon">🎯</div>
+      <div>
+        <div class="tecnica-name">Cómo crear autoridad rápido</div>
+        <div class="tecnica-desc">Usa datos específicos ("llevamos X años aquí en Walmart"). Cita números de aprobación ("la mayoría sale aprobado en menos de 5 minutos"). Lleva credencial visible. Di el nombre del banco con confianza: "Invex — banco regulado por la CNBV". La especificidad genera confianza.</div>
+      </div>
+    </div>
+
+    <div class="tecnica-item">
+      <div class="tecnica-icon">🔥</div>
+      <div>
+        <div class="tecnica-name">Manejo de energía personal</div>
+        <div class="tecnica-desc">Tu estado interno se transmite. Si estás en modo bajo, el cliente lo siente. Antes de abordar: respira, sonríe internamente, recuerda tu mejor cierre. Cada abordaje es el primero del día — energía fresca, no desesperación. El entusiasmo genuino cierra más que el mejor script.</div>
+      </div>
+    </div>
+
+    <div class="tecnica-item">
+      <div class="tecnica-icon">👁️</div>
+      <div>
+        <div class="tecnica-name">Cómo leer clientes en movimiento</div>
+        <div class="tecnica-desc">Carrito lleno = poder adquisitivo activo. Mirando precios = evaluando presupuesto — perfil que valora el ahorro. Celular en mano = distraído — usa opening de alta energía. Pareja = involucra a los dos desde el inicio. Con niños = ángulo familiar. Solo = más independiente, cierra más rápido.</div>
+      </div>
+    </div>
+
+    <div class="tecnica-item">
+      <div class="tecnica-icon">🤝</div>
+      <div>
+        <div class="tecnica-name">Confianza instantánea</div>
+        <div class="tecnica-desc">Sonrisa real (no forzada). Nombre de pila desde el inicio si puedes obtenerlo. Valida su situación antes de vender: "¿Tú compras seguido aquí?" — pregunta + escuchar = conexión. El vendedor que escucha vende más que el que solo habla.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ SECCIÓN 9 ═══════════════════════════════ -->
+  <section class="section" id="s9">
+    <div class="section-header">
+      <div class="section-num">09</div>
+      <div>
+        <div class="section-title">FRASES PODEROSAS</div>
+        <div class="section-sub">30 frases de alto impacto para piso de venta</div>
+      </div>
+    </div>
+
+    <div class="frases-grid">
+      <div class="frase-item"><p>"Tú ya gastas aquí — la pregunta es si te quieres quedar con ese dinero."</p><div class="fn">Aversión a la pérdida</div></div>
+      <div class="frase-item"><p>"Son 7 minutos. Menos que la fila de caja."</p><div class="fn">Ancla de tiempo</div></div>
+      <div class="frase-item"><p>"El 'después' no tiene fecha — el cashback sí pierde."</p><div class="fn">Urgencia psicológica</div></div>
+      <div class="frase-item"><p>"No te pido que confíes en mí — te pido que confíes en Walmart."</p><div class="fn">Transferencia de autoridad</div></div>
+      <div class="frase-item"><p>"El peor cierre es el que no intentas."</p><div class="fn">Activación interna vendedor</div></div>
+      <div class="frase-item"><p>"Si te rechazan, no pierdes nada. Si te aprueban, ganas todo."</p><div class="fn">Riesgo cero percibido</div></div>
+      <div class="frase-item"><p>"Cada semana que no tienes la tarjeta es cashback que no ves."</p><div class="fn">Pérdida acumulada</div></div>
+      <div class="frase-item"><p>"La tarjeta no gasta por ti — tú decides cuándo y cuánto."</p><div class="fn">Control percibido</div></div>
+      <div class="frase-item"><p>"No es crédito — es tu dinero que te regresan."</p><div class="fn">Reencuadre mental</div></div>
+      <div class="frase-item"><p>"¿INE física o QR? Cualquiera sirve — lo que importa es el sí."</p><div class="fn">Eliminación de fricción</div></div>
+      <div class="frase-item"><p>"Los que más ahorran no son los que más ganan — son los que usan mejor sus herramientas."</p><div class="fn">Identidad aspiracional</div></div>
+      <div class="frase-item"><p>"Tengo clientes que ya recuperaron el equivalente a su despensa con el cashback."</p><div class="fn">Prueba social</div></div>
+      <div class="frase-item"><p>"¿Le entras o le sigues regalando dinero a la tienda?"</p><div class="fn">Provocación directa</div></div>
+      <div class="frase-item"><p>"El trámite no te compromete — te informa. La decisión siempre es tuya."</p><div class="fn">Baja de resistencia</div></div>
+      <div class="frase-item"><p>"Esto no es una tarjeta más — es la tarjeta de donde ya gastas."</p><div class="fn">Diferenciación</div></div>
+      <div class="frase-item"><p>"¿Cuánto estimas que gastas al mes aquí?" → Número alto = oportunidad inmediata.</p><div class="fn">Diagnóstico activo</div></div>
+      <div class="frase-item"><p>"El sistema da respuesta en segundos — tú decides el último paso."</p><div class="fn">Facilidad percibida</div></div>
+      <div class="frase-item"><p>"No te voy a convencer — los números te van a convencer."</p><div class="fn">Objetividad táctica</div></div>
+      <div class="frase-item"><p>"Nadie sale arrepentido de ahorrar dinero."</p><div class="fn">Anclaje emocional positivo</div></div>
+      <div class="frase-item"><p>"La tarjeta más cara es la que no tienes cuando necesitas."</p><div class="fn">FOMO financiero</div></div>
+      <div class="frase-item"><p>"¿Qué necesitarías ver para decir que sí?"</p><div class="fn">Pregunta directa de cierre</div></div>
+      <div class="frase-item"><p>"Hoy están los mejores vendedores del equipo aquí — y eso no es casualidad."</p><div class="fn">Autoridad de entorno</div></div>
+      <div class="frase-item"><p>"El banco no pide milagros — solo tu INE."</p><div class="fn">Simplicidad del proceso</div></div>
+      <div class="frase-item"><p>"Tu historial de Walmart ya habla bien de ti."</p><div class="fn">Halago basado en comportamiento</div></div>
+      <div class="frase-item"><p>"Una decisión de 7 minutos puede generarte miles de pesos al año."</p><div class="fn">ROI del tiempo</div></div>
+      <div class="frase-item"><p>"¿Tienes INE? Entonces ya tienes todo lo que necesitas."</p><div class="fn">Simplicidad radical</div></div>
+      <div class="frase-item"><p>"El cashback no es magia — es matemática."</p><div class="fn">Racionalización</div></div>
+      <div class="frase-item"><p>"No te estoy vendiendo deuda — te estoy mostrando una herramienta."</p><div class="fn">Reencuadre de producto</div></div>
+      <div class="frase-item"><p>"Los mejores clientes de Walmart ya tienen esta tarjeta."</p><div class="fn">Prueba social de élite</div></div>
+      <div class="frase-item"><p>"¿Listo? Solo dime si con INE o con QR."</p><div class="fn">Cierre asumido final</div></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ SECCIÓN 10 ═══════════════════════════════ -->
+  <section class="section" id="s10">
+    <div class="section-header">
+      <div class="section-num">10</div>
+      <div>
+        <div class="section-title">SIMULACIONES REALES</div>
+        <div class="section-sub">7 perfiles de cliente · Scripts completos de conversación</div>
+      </div>
+    </div>
+
+    <!-- SIM 1 -->
+    <div class="sim-card">
+      <div class="sim-header">🔥 Perfil 1 — Cliente Difícil (Agresivo / Desinteresado)</div>
+      <div class="sim-body">
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Oye, ¿ya escuchaste que en Walmart te dan cashback cada que compras aquí? Déjame contarte algo rápido."</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"No me interesa, gracias."</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Entiendo — pero antes de irte, ¿puedo preguntarte algo? ¿Tienes alguna tarjeta que te regrese dinero aquí en Walmart específicamente?"</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"No, pero no me interesa ninguna tarjeta."</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Perfecto — entonces literalmente cada compra que haces aquí estás dejando cashback que no ves. No es una tarjeta de crédito convencional — es el programa de recompensas de Walmart. El trámite es con tu INE en 7 minutos. ¿Cuánto gastas aquí al mes, más o menos?"</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"Como 4 o 5 mil."</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Con eso estarías recuperando entre 150 y 200 pesos al mes en cashback — al año son casi 2,000 pesos. ¿Tienes INE? Lo hacemos ahorita mismo."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIM 2 -->
+    <div class="sim-card">
+      <div class="sim-header">🧊 Perfil 2 — Cliente Frío (Sin respuesta emocional)</div>
+      <div class="sim-body">
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Buenas tardes — promotor de Invex Walmart. En menos de 3 minutos le muestro cómo recuperar parte de lo que gasta aquí cada semana. ¿Me da un momento?"</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"…mmm, bueno." <em>(sin entusiasmo)</em></div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Gracias. Rápido: ¿compra seguido aquí en Walmart?" <em>(mientras camina a su lado)</em></div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"Sí, casi cada semana."</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Entonces le aplica perfecto. Básicamente, cada compra que hace aquí le genera un porcentaje en cashback — dinero real, no puntos. El trámite es solo con INE y tarda menos de 7 minutos. ¿La trae consigo?"</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"Sí la traigo."</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Perfecto — en ese caso lo hacemos ahorita mismo. Venga por aquí, tarda menos que la fila de caja."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIM 3 -->
+    <div class="sim-card">
+      <div class="sim-header">🔒 Perfil 3 — Cliente Desconfiado</div>
+      <div class="sim-body">
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Oye, ¿ya tienes la tarjeta de Walmart con Invex?"</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"No, ¿qué es eso? ¿Es confiable?"</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Sí — mira, aquí está mi credencial de promotor. Invex es un banco mexicano con más de 30 años, regulado por la CNBV — igual que Banamex o BBVA. Y operamos dentro de Walmart, no afuera — Walmart no dejaría que estuviéramos aquí si no fuera legítimo."</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"¿Y para qué me piden la INE?"</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Solo para verificar identidad — igual que en cualquier banco. No pedimos más datos. Si no tienes INE física, también lo hacemos con QR desde tu celular para más seguridad. ¿Tienes alguna otra duda antes de que te explique los beneficios?"</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"¿Y qué costo tiene?"</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Si la liquidas mensualmente, el costo es cero — y de hecho te regresa cashback. Los términos exactos te los detalla el ejecutivo. ¿Hacemos la solicitud y revisas los números completos?"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIM 4 -->
+    <div class="sim-card">
+      <div class="sim-header">⚡ Perfil 4 — Cliente Apurado</div>
+      <div class="sim-body">
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"¡Ey! 60 segundos — ¿ya tienes la tarjeta de Walmart que da cashback?"</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"No tengo tiempo, voy corriendo."</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"30 segundos — mientras caminas. Básicamente Walmart te regresa un porcentaje de cada compra. Trámite en 7 minutos con INE. ¿Vienes seguido aquí?"</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"Sí, casi diario."</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Entonces es para ti. ¿Tienes INE o lo hacemos por QR? Son 7 minutos — ¿cuándo regresas?"</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"Paso mañana."</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Perfecto — pregunta por mí en el módulo. Te dejo esto para que no se te olvide." <em>(da material o tarjeta de contacto)</em> "¿A qué hora sueles venir?"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIM 5 -->
+    <div class="sim-card">
+      <div class="sim-header">🧠 Perfil 5 — Cliente Inteligente / Analítico</div>
+      <div class="sim-body">
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Permítame un segundo — tenemos un producto financiero ligado a Walmart que muchos clientes están aprovechando para recuperar parte de su gasto mensual aquí."</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"¿Cuál es el CAT real? ¿Cuánto es la anualidad? ¿Qué banco es?"</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Excelente — el banco es Invex, regulado por CNBV. Los términos exactos de CAT y anualidad los tiene el ejecutivo en el módulo — yo soy promotor de primer contacto, él te da el desglose completo con el contrato físico. Pero te adelanto: el cashback en muchos perfiles compensa la anualidad desde el primer trimestre. ¿Hacemos la solicitud y en el módulo revisas todos los números con el ejecutivo?"</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"¿Y no afecta mi score solo con la solicitud?"</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Es una consulta suave en este paso — el ejecutivo te confirma el procedimiento exacto. Vale la pena que lo revises con él directamente. ¿Vamos?"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIM 6 -->
+    <div class="sim-card">
+      <div class="sim-header">💳 Perfil 6 — Ya tiene tarjetas</div>
+      <div class="sim-body">
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"¿Ya tienes la tarjeta de Walmart?"</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"Tengo BBVA, Santander y Citibanamex — ya tengo suficientes."</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Qué bueno — ya manejas bien el crédito. Déjame preguntarte: ¿alguna de las tres te regresa cashback específicamente por comprar aquí en Walmart?"</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"Pues… puntos de BBVA."</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Puntos vs cashback — hay diferencia. Los puntos tienen restricciones de canje; el cashback es dinero directo. Esta es la tarjeta nativa de Walmart — está optimizada para lo que ya haces aquí. No es para que canceles las otras — es para que uses esta donde ya gastas. ¿Cuánto gastas aquí al mes?"</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"Unos 5 mil pesos."</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Con 5 mil al mes estás en un rango interesante de cashback. Vale la pena al menos ver los números. ¿Tienes INE?"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIM 7 -->
+    <div class="sim-card">
+      <div class="sim-header">✅ Perfil 7 — Cliente que quiere pero duda</div>
+      <div class="sim-body">
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"¿Ya tienes la tarjeta Invex Walmart? Te regresa cashback cada que compras aquí."</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"Sí me interesa… pero no sé. ¿Es complicado el trámite?"</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Para nada — solo necesitas tu INE. En menos de 7 minutos tienes respuesta. No hay papelería, no hay cita, no tienes que ir a un banco."</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"¿Y si no me aprueban?"</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Si no te aprueban, no pasa nada — la solicitud no te compromete a nada. Pero si te aprueban, ya tienes el cashback corriendo desde tu primera compra. ¿Qué pierdes con intentarlo?"</div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"Nada, supongo…"</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Exacto. ¿Tienes INE o lo hacemos con QR?" <em>(pausa — espera al cliente)</em></div>
+        </div>
+        <div class="dialog-line cliente">
+          <div class="avatar">C</div>
+          <div class="dialog-text">"Traigo INE."</div>
+        </div>
+        <div class="dialog-line vendedor">
+          <div class="avatar">V</div>
+          <div class="dialog-text">"Perfecto — por aquí." <em>(cierre cerrado)</em></div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <div style="border-top:1px solid var(--border);padding:32px 0;margin-top:32px;text-align:center;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent);margin-bottom:8px;">CLOSER GUIDE · INVEX WALMART F2F</div>
+    <div style="font-size:12px;color:var(--muted);">Script de alto rendimiento · Uso interno · Edición 2025</div>
+  </div>
+
+</div>
+
+<script>
+  function toggleScript(header) {
+    const body = header.nextElementSibling;
+    const toggle = header.querySelector('.sb-toggle');
+    body.classList.toggle('open');
+    toggle.classList.toggle('open');
+  }
+
+  // Progress bar on scroll
+  window.addEventListener('scroll', () => {
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const progress = (scrollTop / scrollHeight) * 100;
+    document.getElementById('progress').style.width = progress + '%';
+  });
+
+  // Active nav highlighting
+  const sections = document.querySelectorAll('.section');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navItems.forEach(item => {
+          item.classList.toggle('active', item.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
 
